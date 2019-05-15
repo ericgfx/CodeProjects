@@ -1,0 +1,11 @@
+.box{
+    background-image: url(../img/pattern.jpeg);
+    text-align: center;
+}
+
+.box h1{
+    font-size: 100px;
+    font-style: bold;
+    font-family: Helvetica, sans-serif;
+    
+}
