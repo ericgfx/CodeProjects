@@ -3,17 +3,17 @@ from time import sleep
 import math
 
 # temperature sensor, plus color coded light output. thresholds to be adjusted as needed.
-cold = (60, (0,0,1))
+cold = (65, (0,0,1))
 cool = (69, (0,1,1))
 ideal = (72, (0,1,0))
-warm = (80, (1,1,0))
-hot = (90, (1,0,0))
+warm = (80, (3,1,0))
+hot = (90, (5,0,0))
 
 def displayTemp(temp,prevTemp,color):
     if prevTemp > temp:
         cpx.pixels.fill((0,0,0))
     print('Temperature: ', temp)
-    if temp > 109:
+    if temp > 100:
         count = 0
         while count < 3:
             cpx.pixels.fill(hot[1])
@@ -35,21 +35,26 @@ def displayTemp(temp,prevTemp,color):
     sleep(0.5)
     return
 
+
+def thermo(prevTemp):
+    fTemp = (cpx.temperature * 9 / 5) + 32
+    if fTemp < cold[0]:
+        color = cold[1]
+    if fTemp > cold[0]:
+        color = cool[1]
+    if fTemp > cool[0] and fTemp < warm[0]:
+        color = ideal[1]
+    if fTemp > warm[0]:
+        color = warm[1]
+    if fTemp > hot[0]:
+        color = hot[1]
+    displayTemp(fTemp, prevTemp, color)
+    prevTemp = fTemp
+    return
+
 prevTemp = 0
 while True:
     if cpx.switch:
-        fTemp = (cpx.temperature * 9 / 5) + 32
-        if fTemp < cold[0]:
-            color = cold[1]
-        if fTemp > cold[0]:
-            color = cool[1]
-        if fTemp > cool[0] and fTemp < warm[0]:
-            color = ideal[1]
-        if fTemp > warm[0]:
-            color = warm[1]
-        if fTemp > hot[0]:
-            color = hot[1]
-        displayTemp(fTemp, prevTemp, color)
-        prevTemp = fTemp
+        thermo(prevTemp)
     else:
         cpx.pixels.fill((0,0,0))
