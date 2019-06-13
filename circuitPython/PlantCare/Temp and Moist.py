@@ -19,6 +19,27 @@ ideal = (72, (0,1,0))
 warm = (80, (3,1,0))
 hot = (90, (5,0,0))
 
+def countdown(initialTime = 10):
+    firstThird = math.floor(initialTime/3)
+    secondThird = math.floor(initialTime/3*2)
+    for x in range(0, initialTime+1):
+        cpx.pixels[x]((0, 255, 0))
+    for x in range(initialTime, secondThird, -1):
+        cpx.pixels[x] = (0,0,0)
+        sleep(1.0)
+    for x in range(0, secondThird+1):
+        cpx.pixels[x] = (200,200,0)
+    for x in range(secondThird, firstThird, -1):
+        cpx.pixels[x] = (0,0,0)
+        sleep(1.0)
+    for x in range(0, firstThird+1):
+        cpx.pixels[x] = (255,0,0)
+    for x in range(firstThird, -1,-1):
+        cpx.pixels[x] = (0,0,0)
+        sleep(1.0)
+    return
+
+
 #https://stackoverflow.com/questions/1969240/mapping-a-range-of-values-to-another
 def translate(value, leftMin, leftMax, rightMin, rightMax):
     # Figure out how 'wide' each range is
